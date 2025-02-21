@@ -1,0 +1,21 @@
+{
+    "name": "coursecdci",
+    "version": "1.0.0",
+    "description": "Microservicio para el curso CDCI v0",
+    "main": "src/app.js",
+    "scripts": {
+      "start": "node src/app.js",
+      "test": "jest"
+    },
+    "dependencies": {
+      "dotenv": "^10.0.0",
+      "express": "^4.17.1",
+      "mssql": "^7.2.1"
+    },
+    "devDependencies": {
+      "jest": "^27.0.6",
+      "supertest": "^6.1.6"
+    },
+    "author": "ImTronick2025",
+    "license": "ISC"
+  }

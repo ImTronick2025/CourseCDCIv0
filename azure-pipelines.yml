@@ -1,0 +1,38 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '14.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+    npm test
+  displayName: 'Install dependencies and run tests'
+
+- task: Docker@2
+  inputs:
+    command: buildAndPush
+    repository: 'ImTronick2025/coursecdci'
+    dockerfile: '**/Dockerfile'
+    containerRegistry: '$(dockerRegistryServiceConnection)'
+    tags: |
+      $(Build.BuildId)
+  displayName: 'Build and push Docker image'
+
+- task: Kubernetes@1
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: '$(azureSubscriptionServiceConnection)'
+    azureResourceGroup: 'myResourceGroup'
+    kubernetesCluster: 'myAKSCluster'
+    namespace: 'default'
+    command: apply
+    useConfigurationFile: true
+    configuration: 'manifests/deployment.yaml'
+  displayName: 'Deploy to AKS'

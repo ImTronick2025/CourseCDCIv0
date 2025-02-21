@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coursecdci-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: coursecdci
+  template:
+    metadata:
+      labels:
+        app: coursecdci
+    spec:
+      containers:
+      - name: coursecdci
+        image: ImTronick2025/coursecdci:latest
+        ports:
+        - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: coursecdci-service
+spec:
+  selector:
+    app: coursecdci
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: LoadBalancer
